@@ -1,2 +1,4 @@
 # phpcodesniffer-maven-plugin
-Maven plugin to run php code sniffer in your PHP project
+Maven plugin to run PHP CodeSniffer in your PHP project.
+
+See plugin's website at:- http://umakantpatil.com/phpcodesniffer-maven-plugin/
