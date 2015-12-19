@@ -14,6 +14,14 @@
     The PHP CodeSniffer maven plugin runs the PHP CodeSniffer against your code.
   </description>
 
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <scm>
     <connection>scm:git:git://github.com/umakantp/phpcodesniffer-maven-plugin.git</connection>
     <developerConnection>scm:git:git://github.com/umakantp/phpcodesniffer-maven-plugin.git</developerConnection>
