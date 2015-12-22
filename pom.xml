@@ -26,8 +26,8 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:git://github.com/umakantp/phpcodesniffer-maven-plugin.git</connection>
-    <developerConnection>scm:git:git://github.com/umakantp/phpcodesniffer-maven-plugin.git</developerConnection>
+    <connection>scm:git:git@github.com:umakantp/phpcodesniffer-maven-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:umakantp/phpcodesniffer-maven-plugin.git</developerConnection>
     <url>https://github.com/umakantp/phpcodesniffer-maven-plugin</url>
     <tag>phpcodesniffer-maven-plugin-0.0.1</tag>
   </scm>
