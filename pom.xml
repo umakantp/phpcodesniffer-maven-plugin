@@ -7,7 +7,7 @@
   </parent>
   <groupId>com.umakantpatil</groupId>
   <artifactId>phpcodesniffer-maven-plugin</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <packaging>maven-plugin</packaging>
 
   <name>PHP CodeSniffer Maven Plugin</name>
