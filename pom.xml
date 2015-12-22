@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.sonatype.oss</groupId>
@@ -8,7 +7,7 @@
   </parent>
   <groupId>com.umakantpatil</groupId>
   <artifactId>phpcodesniffer-maven-plugin</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <packaging>maven-plugin</packaging>
 
   <name>PHP CodeSniffer Maven Plugin</name>
@@ -30,6 +29,7 @@
     <connection>scm:git:git://github.com/umakantp/phpcodesniffer-maven-plugin.git</connection>
     <developerConnection>scm:git:git://github.com/umakantp/phpcodesniffer-maven-plugin.git</developerConnection>
     <url>https://github.com/umakantp/phpcodesniffer-maven-plugin</url>
+    <tag>phpcodesniffer-maven-plugin-0.0.1</tag>
   </scm>
 
   <issueManagement>
@@ -96,6 +96,22 @@
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.7</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+                <goal>jar</goal>
+            </goals>
+            <configuration>
+                <additionalparam>-Xdoclint:none</additionalparam>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
