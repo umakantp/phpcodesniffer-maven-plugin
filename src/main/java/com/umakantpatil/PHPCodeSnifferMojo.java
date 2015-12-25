@@ -1,5 +1,5 @@
 /**
- * PHP CodeSniffer Maven Plugin (v0.0.1)
+ * PHP CodeSniffer Maven Plugin (v0.0.2)
  * http://umakantpatil.com/phpcodesniffer-maven-plugin
  * Copyright 2015 Umakant Patil
  *

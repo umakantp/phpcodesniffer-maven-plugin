@@ -1,10 +1,10 @@
 /**
- * PHP CodeSniffer Maven Plugin (v0.0.1)
+ * PHP CodeSniffer Maven Plugin (v0.0.2)
  * http://umakantpatil.com/phpcodesniffer-maven-plugin
  * Copyright 2015 Umakant Patil
- * 
+ *
  * PHP CodeSniffer is copyright of Squiz Pty Ltd.
- * 
+ *
  * Author licenses this file to you under the Apache License, version 2.0
  * (the "License"); you may not use this file except in compliance with the
  * License.  You may obtain a copy of the License at:
@@ -35,7 +35,7 @@ import org.rauschig.jarchivelib.ArchiverFactory;
 import com.umakantpatil.exception.DownloadFailed;
 
 /**
- * Helper class to download, untar & copy PHP CodeSniffer. 
+ * Helper class to download, untar & copy PHP CodeSniffer.
  */
 public class FileDownloader {
 
@@ -63,10 +63,10 @@ public class FileDownloader {
 		String tempSniff = tempDir + ds +"PHPCodeSniffer" + phpCodeSnifferVersion;
 		// Where to untar the downloaded sniffer.
 		String tempUntaredSniff = tempDir  + ds + "PHPCodeSniffer-untar-" + phpCodeSnifferVersion;
-		
+
 		String downloadPath = "http://download.pear.php.net/package/PHP_CodeSniffer-"+phpCodeSnifferVersion+".tgz";
 		logger.info("Downloading PHP CodeSniffer from "+downloadPath);
-		
+
 		try {
 			logger.debug("Dowmloading PHP CodeSniffer at " + tempSniff);
 			URL url;
@@ -77,10 +77,10 @@ public class FileDownloader {
 			byte[] buffer = new byte[4096];
 			int len;
 
-			while ((len = is.read(buffer)) > 0) { 
+			while ((len = is.read(buffer)) > 0) {
 				fos.write(buffer, 0, len);
 			}
-			
+
 			if (is != null) {
 				is.close();
 	        }
@@ -93,11 +93,11 @@ public class FileDownloader {
 		        if (fos != null) {
 		            fos.close();
 		        }
-		    } catch (Exception e) {
-		    	// TODO:: Catch right exceptions, not all.
-		    }
+			} catch (Exception e) {
+				// TODO:: Catch right exceptions, not all.
+			}
 		}
-		
+
 		try {
 			Archiver archiver = ArchiverFactory.createArchiver("tar", "gz");
 			archiver.extract(new File(tempSniff), new File(tempUntaredSniff));
@@ -127,54 +127,51 @@ public class FileDownloader {
 	 * @since 0.0.1
 	 */
 	private void recursiveCopy(File fSource, File fDest) {
-	     try {
-	          if (fSource.isDirectory()) {
-	          // A simple validation, if the destination is not exist then create it
-	               if (!fDest.exists()) {
-	                    fDest.mkdirs();
-	               }
-	 
-	               // Create list of files and directories on the current source
-	               // Note: with the recursion 'fSource' changed accordingly
-	               String[] fList = fSource.list();
-	 
-	               for (int index = 0; index < fList.length; index++) {
-	                    File dest = new File(fDest, fList[index]);
-	                    File source = new File(fSource, fList[index]);
-	 
-	                    // Recursion call take place here
-	                    recursiveCopy(source, dest);
-	               }
-	          }
-	          else
-	          {
-	               // Found a file. Copy it into the destination, which is already created in 'if' condition above
-	 
-	               // Open a file for read and write (copy)
-	               FileInputStream fInStream = new FileInputStream(fSource);
-	               FileOutputStream fOutStream = new FileOutputStream(fDest);
-	 
-	               // Read 2K at a time from the file
-	               byte[] buffer = new byte[2048];
-	               int iBytesReads;
-	 
-	               // In each successful read, write back to the source
-	               while ((iBytesReads = fInStream.read(buffer)) >= 0) {
-	                    fOutStream.write(buffer, 0, iBytesReads);
-	               }
-	 
-	               // Safe exit
-	               if (fInStream != null) {
-	                    fInStream.close();
-	               }
-	 
-	               if (fOutStream != null) {
-	                    fOutStream.close();
-	               }
-	          }
-	     }
-	     catch (Exception ex) {
-	    	 // TODO:: Please handle all the relevant exceptions here.
-	     }
+		try {
+			if (fSource.isDirectory()) {
+				// A simple validation, if the destination is not exist then create it
+				if (!fDest.exists()) {
+					fDest.mkdirs();
+				}
+
+				// Create list of files and directories on the current source
+				// Note: with the recursion 'fSource' changed accordingly
+				String[] fList = fSource.list();
+
+				for (int index = 0; index < fList.length; index++) {
+					File dest = new File(fDest, fList[index]);
+					File source = new File(fSource, fList[index]);
+
+                    // Recursion call take place here
+                    recursiveCopy(source, dest);
+               }
+			} else {
+				// Found a file. Copy it into the destination, which is already created in 'if' condition above
+
+				// Open a file for read and write (copy)
+				FileInputStream fInStream = new FileInputStream(fSource);
+				FileOutputStream fOutStream = new FileOutputStream(fDest);
+
+				// Read 2K at a time from the file
+				byte[] buffer = new byte[2048];
+				int iBytesReads;
+
+				// In each successful read, write back to the source
+				while ((iBytesReads = fInStream.read(buffer)) >= 0) {
+					fOutStream.write(buffer, 0, iBytesReads);
+				}
+
+				// Safe exit
+				if (fInStream != null) {
+					fInStream.close();
+				}
+
+				if (fOutStream != null) {
+					fOutStream.close();
+				}
+			}
+		} catch (Exception ex) {
+			// TODO:: Please handle all the relevant exceptions here.
+		}
 	}
 }

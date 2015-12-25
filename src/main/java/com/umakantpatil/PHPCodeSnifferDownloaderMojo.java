@@ -1,3 +1,22 @@
+/**
+ * PHP CodeSniffer Maven Plugin (v0.0.2)
+ * http://umakantpatil.com/phpcodesniffer-maven-plugin
+ * Copyright 2015 Umakant Patil
+ *
+ * PHP CodeSniffer is copyright of Squiz Pty Ltd.
+ *
+ * Author licenses this file to you under the Apache License, version 2.0
+ * (the "License"); you may not use this file except in compliance with the
+ * License.  You may obtain a copy of the License at:
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
 package com.umakantpatil;
 
 import java.io.File;
@@ -23,7 +42,7 @@ public class PHPCodeSnifferDownloaderMojo extends PHPCodeSnifferMojo  {
      *
      * Below is the sample URL to download PHP CodeSniffer.
 	 * http://download.pear.php.net/package/PHP_CodeSniffer-2.4.0.tgz
-     * 
+     *
      * @since 0.0.1
      * @see org.apache.maven.plugin.Mojo#execute()
      * @throws MojoExecutionException
@@ -33,12 +52,12 @@ public class PHPCodeSnifferDownloaderMojo extends PHPCodeSnifferMojo  {
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		downloadCodeSnifferIfNecessary();
 	}
-	
+
 	/**
      * Download PHP CodeSniffer from its PHP Pear website if only user has asked.
-     * 
+     *
      * After downloading it also sets path in "phpCodeSnifferPath".
-     * 
+     *
      * @since 0.0.1
      * @throws MojoExecutionException
      */
@@ -66,10 +85,10 @@ public class PHPCodeSnifferDownloaderMojo extends PHPCodeSnifferMojo  {
     		phpCodeSnifferPathDownloaded = path;
     	}
     }
-    
+
     /**
      * Checks if PHP CodeSniffer version exists at the path.
-     * 
+     *
      * @since 0.0.2
      * @return Boolean If PHP CodeSniffer Exists.
      */
@@ -84,10 +103,10 @@ public class PHPCodeSnifferDownloaderMojo extends PHPCodeSnifferMojo  {
     	}
     	return false;
     }
-    
+
     /**
      * Returns path PHP CodeSniffer download.
-     * 
+     *
      * @since 0.0.2
      * @return String Path to PHP CodeSniffer.
      */

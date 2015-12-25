@@ -1,10 +1,10 @@
 /**
- * PHP CodeSniffer Maven Plugin (v0.0.1)
+ * PHP CodeSniffer Maven Plugin (v0.0.2)
  * http://umakantpatil.com/phpcodesniffer-maven-plugin
  * Copyright 2015 Umakant Patil
- * 
+ *
  * PHP CodeSniffer is copyright of Squiz Pty Ltd.
- * 
+ *
  * Author licenses this file to you under the Apache License, version 2.0
  * (the "License"); you may not use this file except in compliance with the
  * License.  You may obtain a copy of the License at:
@@ -37,13 +37,13 @@ import org.apache.maven.plugins.annotations.Mojo;
        threadSafe = true,
        defaultPhase = LifecyclePhase.TEST)
 public class PHPCodeSnifferChecksMojo extends PHPCodeSnifferMojo {
-    
+
     /**
      * Execute the PHP CodeSniffer checks.
-     * 
+     *
      * Below is the sample command to run PHP CodeSniffer.
      * <php-binary> -d memory_limit=<512M> -f <phpcs>/scripts/phpcs -- <-sp> --standard=<src/test/checks/general-ruleset.xml> <src/main>
-     * 
+     *
      * @see org.apache.maven.plugin.Mojo#execute()
      * @throws MojoExecutionException If configuration is not provided.
      * @throws MojoFailureException If tests are not passed.
@@ -83,7 +83,8 @@ public class PHPCodeSnifferChecksMojo extends PHPCodeSnifferMojo {
         	Runtime rt = Runtime.getRuntime();
             Process proc = rt.exec(command);
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-        	BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+            @SuppressWarnings("unused")
+			BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
 
         	String s = null;
         	while ((s = stdInput.readLine()) != null) {
