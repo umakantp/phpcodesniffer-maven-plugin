@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -40,40 +41,36 @@ public class FileDownloader {
 
 	/**
 	 * Downloads, copies and untars PHP Code Sniffer.
-	 * 
+	 *
 	 * Example URL of a download package is
 	 * http://download.pear.php.net/package/PHP_CodeSniffer-2.4.0.tgz
-	 * 
+	 *
 	 * @param phpCodeSnifferDownloadPath Path where to download PHP CodeSniffer
 	 * @param phpCodeSnifferVersion      Which version to download.
 	 * @param logger					 Logger class to log the details for debugging.
-	 * 
+	 *
+	 * @since 0.0.1
 	 * @throws DownloadFailed If version provided is not available on the website.
 	 *                        Or any IO Exception is thrown.
 	 */
 	public String get(String phpCodeSnifferDownloadPath, String phpCodeSnifferVersion, Log logger) throws DownloadFailed {
 		InputStream is = null;
 		FileOutputStream fos = null;
-		String whereToCopy = "";
 		String ds = File.separator;
+		// System's temp directory.
+		String tempDir = System.getProperty("java.io.tmpdir");
+		// Where to download sniffer temporary.
+		String tempSniff = tempDir + ds +"PHPCodeSniffer" + phpCodeSnifferVersion;
+		// Where to untar the downloaded sniffer.
+		String tempUntaredSniff = tempDir  + ds + "PHPCodeSniffer-untar-" + phpCodeSnifferVersion;
+		
+		String downloadPath = "http://download.pear.php.net/package/PHP_CodeSniffer-"+phpCodeSnifferVersion+".tgz";
+		logger.info("Downloading PHP CodeSniffer from "+downloadPath);
+		
 		try {
-			// System's temp directory.
-			String tempDir = System.getProperty("java.io.tmpdir");
-			// Where to download sniffer temporary.
-			String tempSniff = tempDir + ds +"PHPCodeSniffer" + phpCodeSnifferVersion;
-			// Where to untar the downloaded sniffer.
-			String tempUntarSniff = tempDir  + ds + "PHPCodeSniffer-untar-" + phpCodeSnifferVersion;
-			// Name of the folder actually containing sniffer in the untared folder.
-			String realFolder = "PHP_CodeSniffer-"+phpCodeSnifferVersion;
-			// Path to folder containing actual/real sniffer files.
-			String tempUntarSniffReal = tempUntarSniff + ds + realFolder;
-			// Path to finally where to copy the sniffer.
-			whereToCopy = phpCodeSnifferDownloadPath + ds + realFolder;
-			
-			String downloadPath = "http://download.pear.php.net/package/PHP_CodeSniffer-"+phpCodeSnifferVersion+".tgz";
-			logger.info("Downloading PHP CodeSniffer from "+downloadPath);
-			
-			URL url = new URL(downloadPath);
+			logger.debug("Dowmloading PHP CodeSniffer at " + tempSniff);
+			URL url;
+			url = new URL(downloadPath);
 			URLConnection urlConn = url.openConnection();
 			is = urlConn.getInputStream();
 			fos = new FileOutputStream(tempSniff);
@@ -86,13 +83,9 @@ public class FileDownloader {
 			
 			if (is != null) {
 				is.close();
-            }
-			Archiver archiver = ArchiverFactory.createArchiver("tar", "gz");
-			archiver.extract(new File(tempSniff), new File(tempUntarSniff));
-			logger.debug("Temporary untar directory is " + tempUntarSniff);
-			File srcDir = new File(tempUntarSniffReal);
-			File destDir = new File(whereToCopy);
-			recursiveCopy(srcDir, destDir);
+	        }
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			throw new DownloadFailed("Provided version of PHP CodeSniffer is wrong or check your internet connection. details: " + e.getMessage());
 		} finally {
@@ -104,16 +97,34 @@ public class FileDownloader {
 		    	// TODO:: Catch right exceptions, not all.
 		    }
 		}
-		return whereToCopy;
+		
+		try {
+			Archiver archiver = ArchiverFactory.createArchiver("tar", "gz");
+			archiver.extract(new File(tempSniff), new File(tempUntaredSniff));
+			logger.debug("Temporary untar directory is " + tempUntaredSniff);
+			String tempSniffFolder = tempUntaredSniff + ds + "PHP_CodeSniffer-"+phpCodeSnifferVersion;
+			File srcDir = new File(tempSniffFolder);
+			File destDir = new File(phpCodeSnifferDownloadPath);
+			recursiveCopy(srcDir, destDir);
+			logger.debug("Copying PHP CodeSniffer from " + srcDir.getAbsolutePath());
+			logger.debug("Copying PHP CodeSniffer to " + destDir.getAbsolutePath());
+			File f = new File(phpCodeSnifferDownloadPath + ds + phpCodeSnifferVersion);
+			f.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return phpCodeSnifferDownloadPath;
 	}
 
 	/**
 	 * Recursively copy folder from source to destination.
-	 * 
+	 *
 	 * Taken from https://erangatennakoon.wordpress.com/2012/05/08/recursive-file-and-folder-copy-in-java/
-	 * 
+	 *
 	 * @param fSource Source folder to copy.
 	 * @param fDest   Destination where has to be copied.
+	 *
+	 * @since 0.0.1
 	 */
 	private void recursiveCopy(File fSource, File fDest) {
 	     try {

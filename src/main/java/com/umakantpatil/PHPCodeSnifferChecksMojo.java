@@ -37,7 +37,7 @@ import org.apache.maven.plugins.annotations.Mojo;
        threadSafe = true,
        defaultPhase = LifecyclePhase.TEST)
 public class PHPCodeSnifferChecksMojo extends PHPCodeSnifferMojo {
-
+    
     /**
      * Execute the PHP CodeSniffer checks.
      * 
